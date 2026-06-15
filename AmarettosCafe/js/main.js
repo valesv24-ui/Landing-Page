@@ -1,34 +1,28 @@
 /* =============================================
-   Amaretto's Café — main.js
+   Amaretto's Café — main.js v7
    ISW-521 Laboratorio #1
-   JavaScript nativo — sin librerías externas
-
-   Implementa:
-     1. localStorage — tema oscuro/claro
-        (html.dark según Clase #6, Slide 56)
-     2. localStorage — nombre del visitante
-        (persistencia real entre sesiones)
-     3. Menú hamburguesa accesible (aria-expanded)
-     4. Tabs del menú (role="tab" + aria-selected)
-     5. Scroll animations (IntersectionObserver)
+   Funcionalidades:
+     1. localStorage — tema oscuro/claro (html.dark)
+     2. localStorage — nombre visitante
+     3. localStorage — tamaño de fuente (accesibilidad)
+     4. Menú hamburguesa (aria-expanded)
+     5. Tabs del menú (role="tab" + aria-selected)
+     6. Carrusel con dots (Flexbox transform)
+     7. Scroll animations (IntersectionObserver)
    ============================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ================================================
-     1. WEB STORAGE — TEMA (localStorage)
-     ------------------------------------------------
+     1. TEMA OSCURO/CLARO — localStorage
      Clave: "amarettos_dark_mode"
-
-     Según Clase #6, Slide 56, el modo oscuro se
-     activa con una clase en <html>, no en <body>:
-       html.dark { --color-bg: ...; }
-     Se usa document.documentElement para acceder
-     al elemento <html>.
-
-     localStorage persiste aunque se cierre el
-     navegador (diferencia vs sessionStorage que
-     se borra al cerrar la pestaña).
+     - Al cargar: respeta la preferencia del sistema
+       (prefers-color-scheme) si el usuario no ha
+       elegido manualmente
+     - Si el usuario usa el botón: guarda su elección
+       en localStorage y esa tiene prioridad
+     - Clase html.dark afecta TODA la página a través
+       de las variables CSS en :root
   ================================================ */
   const themeBtn  = document.getElementById('themeToggle');
   const themeIcon = document.getElementById('themeIcon');
@@ -36,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function applyTheme(isDark) {
     if (isDark) {
-      // Clase en <html> (Clase #6, Slide 56)
       document.documentElement.classList.add('dark');
       themeIcon.textContent = '☀️';
       themeBtn.setAttribute('aria-label', 'Cambiar a modo claro');
@@ -47,15 +40,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Recuperar del localStorage al cargar (persistencia real)
+  // Prioridad 1: preferencia guardada manualmente por el usuario
+  // Prioridad 2: preferencia del sistema operativo (prefers-color-scheme)
   const savedTheme = localStorage.getItem(THEME_KEY);
   if (savedTheme !== null) {
+    // El usuario ya eligió manualmente → respetar su elección
     applyTheme(savedTheme === 'true');
   } else {
-    // Respetar la preferencia del sistema operativo
+    // Sin elección manual → seguir la preferencia del sistema
     applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
   }
 
+  // Escuchar cambios en la preferencia del sistema en tiempo real
+  // (solo si el usuario no ha elegido manualmente)
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (localStorage.getItem(THEME_KEY) === null) {
+      applyTheme(e.matches);
+    }
+  });
+
+  // Botón manual: guarda en localStorage y tiene prioridad sobre el sistema
   themeBtn.addEventListener('click', () => {
     const isDark = document.documentElement.classList.contains('dark');
     applyTheme(!isDark);
@@ -64,18 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ================================================
-     2. WEB STORAGE — NOMBRE VISITANTE (localStorage)
-     ------------------------------------------------
+     2. NOMBRE DEL VISITANTE — localStorage
      Clave: "amarettos_visitor_name"
-
-     Al recargar la página, el nombre se recupera
-     y muestra en un mensaje de bienvenida.
-     Esto demuestra persistencia real (localStorage
-     vs sessionStorage).
-
-     El welcome-msg usa aria-live="polite" (Clase #6,
-     Slide 25) para que los lectores de pantalla
-     anuncien el cambio sin interrumpir al usuario.
+     Persiste entre sesiones (vs sessionStorage
+     que se borra al cerrar la pestaña)
   ================================================ */
   const visitorInput = document.getElementById('visitorName');
   const saveBtn      = document.getElementById('saveNameBtn');
@@ -95,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Recuperar del localStorage al cargar (persistencia real)
+  // Recuperar al cargar (persistencia real)
   showWelcome(localStorage.getItem(NAME_KEY));
 
   if (saveBtn) {
@@ -105,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(NAME_KEY, name);
         showWelcome(name);
       } else {
-        // aria-live="polite" anuncia esto al lector de pantalla
         welcomeMsg.textContent = '⚠️ Escribí tu nombre primero.';
         welcomeMsg.classList.add('visible');
       }
@@ -133,11 +128,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ================================================
-     3. MENÚ HAMBURGUESA — móvil
-     ------------------------------------------------
-     Controla aria-expanded (Clase #6, Slide 24).
-     aria-expanded="true/false" comunica el estado
-     del menú a los lectores de pantalla.
+     3. TAMAÑO DE FUENTE — localStorage (inclusión)
+     Clave: "amarettos_font_size"
+     Cicla entre 3 tamaños: normal → grande → extra grande
+     Se aplica con clases en <html>: font-lg, font-xl
+     Persiste al recargar la página
+  ================================================ */
+  const fontBtn   = document.getElementById('fontSizeBtn');
+  const FONT_KEY  = 'amarettos_font_size';
+  const fontSizes = ['normal', 'font-lg', 'font-xl'];
+  const fontLabels= ['Tamaño normal', 'Texto grande', 'Texto extra grande'];
+
+  function applyFontSize(size) {
+    document.documentElement.classList.remove('font-lg', 'font-xl');
+    if (size !== 'normal') {
+      document.documentElement.classList.add(size);
+    }
+    // Actualizar aria-label del botón
+    const idx = fontSizes.indexOf(size);
+    const next = fontSizes[(idx + 1) % fontSizes.length];
+    if (fontBtn) {
+      fontBtn.setAttribute('aria-label', `${fontLabels[idx]} — clic para cambiar`);
+      fontBtn.setAttribute('title', `Tamaño actual: ${fontLabels[idx]}`);
+      // Indicador visual en el botón
+      fontBtn.style.background = size === 'normal' ? '' : 'var(--color-primary)';
+      fontBtn.style.color      = size === 'normal' ? '' : '#fff';
+      fontBtn.style.borderColor= size === 'normal' ? '' : 'var(--color-primary)';
+    }
+  }
+
+  // Recuperar del localStorage al cargar
+  const savedFont = localStorage.getItem(FONT_KEY) || 'normal';
+  applyFontSize(savedFont);
+
+  if (fontBtn) {
+    fontBtn.addEventListener('click', () => {
+      const current = localStorage.getItem(FONT_KEY) || 'normal';
+      const idx     = fontSizes.indexOf(current);
+      const next    = fontSizes[(idx + 1) % fontSizes.length];
+      applyFontSize(next);
+      localStorage.setItem(FONT_KEY, next); // persistir
+    });
+  }
+
+
+  /* ================================================
+     4. MENÚ HAMBURGUESA — aria-expanded
+     Clase #6, Slide 24
   ================================================ */
   const navToggle = document.getElementById('navToggle');
   const navMenu   = document.getElementById('navMenu');
@@ -167,11 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ================================================
-     4. TABS DEL MENÚ — accesibles
-     ------------------------------------------------
-     Implementa role="tablist" / role="tab" /
-     role="tabpanel" con aria-selected (Clase #6,
-     Slide 23 — roles de widgets interactivos).
+     5. TABS DEL MENÚ — aria-selected
+     Clase #6, Slide 23
   ================================================ */
   const tabBtns   = document.querySelectorAll('.tab-btn');
   const tabPanels = document.querySelectorAll('.tab-panel');
@@ -179,31 +213,17 @@ document.addEventListener('DOMContentLoaded', () => {
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const targetId = btn.getAttribute('aria-controls');
-
-      // Desactivar todos
-      tabBtns.forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      tabPanels.forEach(p => {
-        p.classList.remove('active');
-        p.hidden = true;
-      });
-
-      // Activar el seleccionado
+      tabBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+      tabPanels.forEach(p => { p.classList.remove('active'); p.hidden = true; });
       btn.classList.add('active');
       btn.setAttribute('aria-selected', 'true');
-
       const target = document.getElementById(targetId);
       if (target) {
         target.classList.add('active');
         target.hidden = false;
-        // Re-disparar animaciones del panel al cambiar de tab
         target.querySelectorAll('[data-animate]').forEach(el => {
           el.classList.remove('visible');
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => el.classList.add('visible'));
-          });
+          requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
         });
       }
     });
@@ -211,13 +231,111 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ================================================
-     5. SCROLL ANIMATIONS — IntersectionObserver
-     ------------------------------------------------
-     Clase nativa del navegador para detectar cuando
-     un elemento entra al viewport. Más eficiente
-     que escuchar el evento scroll.
-     Añade clase "visible" que activa la animación
-     CSS definida en style.css.
+     6. CARRUSEL — Flexbox transform
+     Usa CSS Flexbox (Clase #7) para el track.
+     El movimiento se hace con translateX sobre
+     el contenedor flex, aprovechando que los slides
+     son flex items con flex: 0 0 calc(...)
+  ================================================ */
+  const track     = document.getElementById('carouselTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+  const prevBtn   = document.getElementById('carouselPrev');
+  const nextBtn   = document.getElementById('carouselNext');
+
+  if (track) {
+    const slides     = track.querySelectorAll('.carousel-slide');
+    const totalSlides = slides.length;
+
+    // Calcular cuántos slides son visibles según el ancho
+    function getSlidesVisible() {
+      if (window.innerWidth <= 600)  return 1;
+      if (window.innerWidth <= 960)  return 2;
+      return 3;
+    }
+
+    let current = 0;
+    let visible = getSlidesVisible();
+    const maxIndex = () => Math.max(0, totalSlides - visible);
+
+    // Crear dots
+    function buildDots() {
+      dotsContainer.innerHTML = '';
+      visible = getSlidesVisible();
+      const numDots = maxIndex() + 1;
+      for (let i = 0; i < numDots; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === current ? ' active' : '');
+        dot.setAttribute('aria-label', `Ir a foto ${i + 1}`);
+        dot.setAttribute('role', 'tab');
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    // Mover el carrusel usando translateX
+    // El track es un flex container (Clase #7):
+    // cada slide es flex: 0 0 calc((100% - gaps) / n)
+    // mover n slides = translateX de n * (slideWidth + gap)
+    function goTo(index) {
+      current = Math.max(0, Math.min(index, maxIndex()));
+
+      // Obtener ancho real del primer slide + gap
+      const slideEl   = slides[0];
+      const slideW    = slideEl.offsetWidth;
+      const gap       = 16; // var(--space-md) = 1rem = 16px
+      const offset    = current * (slideW + gap);
+
+      track.style.transform = `translateX(-${offset}px)`;
+
+      // Actualizar dots
+      dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === current);
+      });
+
+      // Actualizar aria-live para lectores de pantalla
+      track.parentElement.setAttribute('aria-label', `Foto ${current + 1} de ${totalSlides}`);
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Auto-avance cada 4 segundos
+    let autoPlay = setInterval(() => {
+      goTo(current >= maxIndex() ? 0 : current + 1);
+    }, 4000);
+
+    // Pausar al hover
+    track.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
+    track.parentElement.addEventListener('mouseleave', () => {
+      autoPlay = setInterval(() => {
+        goTo(current >= maxIndex() ? 0 : current + 1);
+      }, 4000);
+    });
+
+    // Touch/swipe para móvil
+    let touchStartX = 0;
+    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend',   e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+    });
+
+    // Recalcular al redimensionar
+    window.addEventListener('resize', () => {
+      visible = getSlidesVisible();
+      if (current > maxIndex()) current = maxIndex();
+      buildDots();
+      goTo(current);
+    });
+
+    buildDots();
+    goTo(0);
+  }
+
+
+  /* ================================================
+     7. SCROLL ANIMATIONS — IntersectionObserver
+     Activa clase "visible" al entrar al viewport.
   ================================================ */
   const animEls = document.querySelectorAll('[data-animate]');
 
@@ -226,17 +344,13 @@ document.addEventListener('DOMContentLoaded', () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          observer.unobserve(entry.target); // solo anima una vez
+          observer.unobserve(entry.target);
         }
       });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -30px 0px'
-    });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
     animEls.forEach(el => observer.observe(el));
   } else {
-    // Fallback: mostrar todo si el navegador no soporta IntersectionObserver
     animEls.forEach(el => el.classList.add('visible'));
   }
 

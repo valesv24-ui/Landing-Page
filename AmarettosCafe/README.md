@@ -1,100 +1,163 @@
-# ☕ Amaretto's Café — Landing Page
+# Laboratorio #1 — Landing Page Responsiva
 
-**Laboratorio #1 · ISW-521 Programación en Ambiente Web I**  
-Universidad Técnica Nacional · Sede San Carlos
+**Curso:** ISW-521 Programación en Ambiente Web I  
+**Universidad:** Universidad Técnica Nacional (UTN)  
+**Docente:** Bryan Miguel Chaves Salas  
+**Estudiante:** Valery  
+**Porcentaje:** 15% de la nota final  
 
 ---
 
 ## 📋 Descripción
 
-Landing page para **Amaretto's Café**, negocio local ubicado en Ciudad Quesada, San Carlos, Costa Rica. El proyecto fue desarrollado como parte del Laboratorio #1 del curso ISW-521, aplicando los conceptos de HTML5 semántico, CSS con Flexbox/Grid, JavaScript nativo y accesibilidad web (WCAG 2.1).
+Landing page responsiva y accesible para **Amaretto's Café**, negocio real ubicado en Ciudad Quesada, San Carlos, Costa Rica. Construida con HTML5 semántico, CSS3 nativo y JavaScript vanilla, sin frameworks externos.
 
 ---
 
-## 🗂️ Estructura del proyecto
+## 🏗️ Estructura del proyecto
 
 ```
-Amarettos Cafe/
-└── Landing Page - Amarretto's Café/
-    ├── index.html        # Documento principal
-    ├── README.md
-    ├── css/
-    │   └── style.css     # Estilos (Flexbox, Grid, responsive, dark mode)
-    ├── js/
-    │   └── main.js       # JavaScript nativo sin librerías externas
-    └── img/
-        ├── logo.jpg
-        ├── hero-banner.jpg
-        └── ...           # Imágenes reales del negocio
+laboratorio-01/
+├── index.html          # Documento principal
+├── README.md           # Este archivo
+├── css/
+│   └── style.css       # Estilos — Flexbox + Grid + Variables CSS
+├── js/
+│   └── main.js         # JavaScript nativo — Web Storage + accesibilidad
+└── img/
+    ├── logo.jpg
+    ├── hero-banner.jpg
+    ├── barista-latte.jpg
+    ├── club-sandwich.jpg
+    ├── brownie-helado.jpg
+    ├── empanadas.jpg
+    ├── deditos-pollo.jpg
+    ├── taquitos-pescado.jpg
+    ├── desayuno-gallo.jpg
+    ├── hamburguesa.jpg
+    ├── arroz-pollo.jpg
+    ├── cafes-frios.jpg
+    ├── menu-portada.jpg
+    ├── menu-bebidas.jpg
+    ├── menu-postres.jpg
+    ├── menu-desayunos.jpg
+    └── menu-emparedados.jpg
 ```
 
 ---
 
-## ✨ Funcionalidades implementadas
+## ✅ Requerimientos técnicos cumplidos
 
-### HTML5 & CSS
-- Estructura semántica con `<header>`, `<main>`, `<section>`, `<footer>`, `<nav>`
-- **Navbar** con Flexbox + menú hamburguesa para móvil
-- **Hero section** con imagen de fondo y overlay
-- **Marquee animado** con productos destacados
-- **Menú por pestañas** (Desayunos, Almuerzos, Emparedados, Bebidas, Postres)
-- **Galería** con CSS Grid responsive
-- **Sección Nosotros** y **Contacto**
-- Diseño **responsive** con breakpoints para móvil, tablet y escritorio
-- **Dark mode / Light mode** con toggle
+### HTML5 Semántico
+- Declaración correcta `<!DOCTYPE html>` con `lang="es"`
+- Etiquetas estructurales: `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`, `<figure>`, `<figcaption>`, `<blockquote>`, `<cite>`
+- Sin tablas para layout
+- Validado en [validator.w3.org](https://validator.w3.org)
 
-### JavaScript (sin frameworks)
-| # | Funcionalidad | Mecanismo |
+### CSS3 Nativo — Flexbox y Grid
+
+**Flexbox** aplicado en:
+- Navbar (`.navbar`) — distribución logo / links / acciones
+- Estadísticas (`.stats-flex`)
+- Tarjetas de testimonios (`.testi-flex`)
+- Features en Nosotros (`.about-features`)
+- Filas de contacto (`.cinfo-list`)
+
+**CSS Grid** aplicado en:
+- Panel del menú (`.panel-layout`) — imagen + contenido
+- Items del menú (`.menu-grid-items`) — 2 columnas
+- Galería (`.gallery-grid`) — grid asimétrico con `grid-row` y `grid-column`
+- Sección Nosotros (`.about-inner`)
+- Sección Contacto (`.contact-inner`)
+
+**Media queries** — dos breakpoints funcionales:
+- `@media (max-width: 960px)` — tablet
+- `@media (max-width: 600px)` — móvil
+
+Sin frameworks CSS externos (sin Bootstrap, Tailwind, etc.)
+
+### Accesibilidad Web — WCAG 2.1 Nivel A
+- Atributos `alt` descriptivos en todas las imágenes
+- ARIA: `aria-label`, `aria-expanded`, `aria-controls`, `aria-selected`, `aria-live="polite"`, `aria-atomic`, `aria-labelledby`
+- Contraste texto/fondo ≥ 4.5:1
+- `:focus-visible` visible para navegación por teclado
+- `role="tab"`, `role="tabpanel"`, `role="tablist"` en el menú de tabs
+- Modo oscuro con clase en `<html>` (`html.dark`)
+
+### Web Storage — localStorage
+
+Dos funcionalidades con `localStorage`:
+
+**1. Tema oscuro/claro** — clave `amarettos_dark_mode`
+- Persiste la preferencia al recargar
+- Respeta `prefers-color-scheme` si no hay dato guardado
+
+**2. Nombre del visitante** — clave `amarettos_visitor_name`
+- Guarda el nombre ingresado en Contacto
+- Al recargar muestra saludo personalizado
+- Botón "Olvidar" elimina el dato con `localStorage.removeItem()`
+
+> **localStorage vs sessionStorage:** `localStorage` persiste aunque se cierre el navegador. `sessionStorage` se borra al cerrar la pestaña. Se eligió `localStorage` para demostrar persistencia real entre sesiones.
+
+---
+
+## 📱 Responsividad
+
+| Dispositivo | Breakpoint | Comportamiento |
 |---|---|---|
-| 1 | Persistencia del tema oscuro/claro | `localStorage` |
-| 2 | Saludo personalizado al visitante | `localStorage` |
-| 3 | Menú hamburguesa (móvil) | DOM events |
-| 4 | Pestañas del menú (accesibles) | `role="tablist"` + ARIA |
-| 5 | Animaciones al hacer scroll | `IntersectionObserver` |
-
-### Accesibilidad (WCAG 2.1)
-- Atributos `aria-label`, `aria-controls`, `aria-expanded`, `role`
-- Navegación por teclado en pestañas del menú
-- `alt` descriptivo en imágenes
-- Contraste de colores adecuado en ambos temas
+| Desktop | > 960px | Layout completo, galería 4 columnas |
+| Tablet | ≤ 960px | Menú hamburguesa, paneles en columna única |
+| Móvil | ≤ 600px | Galería 2 columnas, tabs compactos |
 
 ---
 
-## 🛠️ Tecnologías
+## 🎨 Sistema de diseño
 
-- HTML5
-- CSS3 (Flexbox, Grid, Custom Properties, animaciones)
-- JavaScript ES6+ (nativo, sin librerías)
-- Google Fonts: *Cormorant Garamond* + *DM Sans*
-- Web Storage API (`localStorage`)
+Variables CSS semánticas en `:root`:
+
+```css
+--color-primary   /* Naranja marca: #E8521A */
+--color-accent    /* Café claro:    #8B5E3C */
+--color-bg        /* Crema:         #FDF5EC */
+--color-text      /* Texto:         #1E1E1E */
+--font-display    /* Cormorant Garamond */
+--font-body       /* DM Sans */
+--space-*         /* Escala de espaciado */
+--radius-*        /* Radios de borde */
+```
 
 ---
 
-## 🚀 Cómo abrir el proyecto
+## 🚀 Cómo ejecutar
 
 1. Clonar o descargar el repositorio
-2. Abrir el archivo `Amarettos Cafe/Landing Page - Amarretto's Café/index.html` en cualquier navegador moderno
-3. No requiere servidor ni dependencias adicionales
+2. Descomprimir si viene en ZIP
+3. Abrir `index.html` en el navegador
 
-```bash
-git clone https://github.com/valesv24-ui/Laboratorio01-LP.git
-cd "tu-repo/Amarettos Cafe/Landing Page - Amarretto's Café"
-# Abrir index.html en el navegador
-```
+No requiere servidor, dependencias ni instalación.
 
 ---
 
-## 📍 Sobre el negocio
+## 🔍 Funcionalidades destacadas
 
-**Amaretto's Café** es una cafetería real ubicada en Ciudad Quesada, San Carlos, Costa Rica.
-
-- 📞 2462-4343  
-- 🕐 Lunes a Sábado · 8:00 am – 7:00 pm
+- **Tabs del menú** — 6 categorías con precios reales del café
+- **Galería asimétrica** — CSS Grid con spans personalizados
+- **Scroll animations** — `IntersectionObserver` activa animaciones al entrar al viewport
+- **Modo oscuro persistente** — toggle con `localStorage`
+- **Marquee animado** — banda de categorías en movimiento continuo
+- **Menú hamburguesa accesible** — `aria-expanded` actualizado en cada estado
 
 ---
 
-## 👩‍💻 Autora
+## 📚 Tecnologías
 
-Proyecto desarrollado para el curso **ISW-521 · Programación en Ambiente Web I**  
-Profesor: Prof. Bryan Miguel Chaves Salas  
-UTN Sede San Carlos · 2026
+| Tecnología | Uso |
+|---|---|
+| HTML5 | Estructura semántica |
+| CSS3 | Estilos, Flexbox, Grid, animaciones, custom properties |
+| JavaScript ES6+ | Web Storage, DOM, IntersectionObserver |
+| Google Fonts | Cormorant Garamond + DM Sans |
+
+---
+
+*Laboratorio desarrollado para el curso ISW-521 — UTN Sede San Carlos*

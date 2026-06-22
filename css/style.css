@@ -500,7 +500,7 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
 
 /* CONTACTO — naranja */
 .contact-section { padding: 6rem var(--space-lg); background: var(--color-primary); }
-.contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1100px; margin: 0 auto; align-items: start; }
+.contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1100px; margin: 0 auto; align-items: center; }
 .contact-info-col { min-width: 0; }
 .contact-map-col  { min-width: 0; }
 .contact-info-col .section-tag { color: rgba(255,255,255,.65); }
@@ -655,4 +655,8 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
   .social-btn { padding: 8px 12px; font-size: .78rem; }
 
   .about-inner { gap: 2rem; }
+  .about-imgs  { height: 280px; }
 }
+
+/* Dirección en columna derecha: sin margen inferior excesivo */
+.contact-map-col .cinfo-list { margin-bottom: 0; gap: var(--space-md); }

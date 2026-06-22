@@ -67,64 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  /* ================================================
-     2. NOMBRE DEL VISITANTE — localStorage
-     Clave: "amarettos_visitor_name"
-     Persiste entre sesiones (vs sessionStorage
-     que se borra al cerrar la pestaña)
-  ================================================ */
-  const visitorInput = document.getElementById('visitorName');
-  const saveBtn      = document.getElementById('saveNameBtn');
-  const clearBtn     = document.getElementById('clearNameBtn');
-  const welcomeMsg   = document.getElementById('welcome-msg');
-  const NAME_KEY     = 'amarettos_visitor_name';
 
-  function showWelcome(name) {
-    if (!welcomeMsg) return;
-    if (name && name.trim()) {
-      welcomeMsg.textContent = `¡Bienvenido/a de vuelta, ${name.trim()}! 🧡 ¡Te esperamos!`;
-      welcomeMsg.classList.add('visible');
-      if (visitorInput) visitorInput.value = name.trim();
-    } else {
-      welcomeMsg.textContent = '';
-      welcomeMsg.classList.remove('visible');
-    }
-  }
-
-  // Recuperar al cargar (persistencia real)
-  showWelcome(localStorage.getItem(NAME_KEY));
-
-  if (saveBtn) {
-    saveBtn.addEventListener('click', () => {
-      const name = visitorInput ? visitorInput.value.trim() : '';
-      if (name) {
-        localStorage.setItem(NAME_KEY, name);
-        showWelcome(name);
-      } else {
-        welcomeMsg.textContent = '⚠️ Escribí tu nombre primero.';
-        welcomeMsg.classList.add('visible');
-      }
-    });
-  }
-
-  if (visitorInput) {
-    visitorInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && saveBtn) saveBtn.click();
-    });
-  }
-
-  if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
-      localStorage.removeItem(NAME_KEY);
-      if (visitorInput) visitorInput.value = '';
-      welcomeMsg.textContent = '✔ Nombre eliminado.';
-      welcomeMsg.classList.add('visible');
-      setTimeout(() => {
-        welcomeMsg.textContent = '';
-        welcomeMsg.classList.remove('visible');
-      }, 3000);
-    });
-  }
 
 
   /* ================================================

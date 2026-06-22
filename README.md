@@ -86,16 +86,11 @@ Sin frameworks CSS externos (sin Bootstrap, Tailwind, etc.)
 
 ### Web Storage — localStorage
 
-Dos funcionalidades con `localStorage`:
+Funcionalidad con `localStorage`:
 
-**1. Tema oscuro/claro** — clave `amarettos_dark_mode`
+**Tema oscuro/claro** — clave `amarettos_dark_mode`
 - Persiste la preferencia al recargar
 - Respeta `prefers-color-scheme` si no hay dato guardado
-
-**2. Nombre del visitante** — clave `amarettos_visitor_name`
-- Guarda el nombre ingresado en Contacto
-- Al recargar muestra saludo personalizado
-- Botón "Olvidar" elimina el dato con `localStorage.removeItem()`
 
 > **localStorage vs sessionStorage:** `localStorage` persiste aunque se cierre el navegador. `sessionStorage` se borra al cerrar la pestaña. Se eligió `localStorage` para demostrar persistencia real entre sesiones.
 

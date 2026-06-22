@@ -651,8 +651,17 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
 
   .stat-div   { display: none; }
   .stats-flex { gap: var(--space-md); }
+  .stat-n     { font-size: 2rem; }
+  .stat-item  { min-width: 0; padding: .5rem; }
+
+  /* Hero: altura más compacta en móvil */
+  .hero       { height: auto; min-height: 0; }
+  .hero-inner { padding: 3rem var(--space-md) 4rem; }
 
   .social-btn { padding: 8px 12px; font-size: .78rem; }
+
+  /* Contacto: sin espacio extra entre info y mapa */
+  .contact-info-col .cinfo-list { margin-bottom: 0; }
 
   .about-inner { gap: 2rem; }
   .about-imgs  { height: 280px; }

@@ -125,8 +125,8 @@ html.dark .footer-loc  { color: rgba(255,255,255,.5); }
 html.dark .footer-copy { color: rgba(255,255,255,.3); }
 
 /* Escala de fuente para accesibilidad */
-html.font-lg  { --a11y-scale: 1.15; }
-html.font-xl  { --a11y-scale: 1.30; }
+html.font-lg  { --a11y-scale: 1.25; font-size: 19px; }
+html.font-xl  { --a11y-scale: 1.55; font-size: 23px; }
 
 body { font-size: calc(var(--font-size-base) * var(--a11y-scale)); }
 
@@ -655,9 +655,12 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
   .stat-item  { min-width: 0; padding: .5rem; }
 
   /* Hero: proporción exacta de la imagen en móvil */
-  .hero       { height: calc(100vw * 0.376); min-height: 0; }
-  .hero-bg    { background-size: 100% auto; background-position: top center; }
-  .hero-inner { padding: 1.5rem var(--space-md); }
+  .hero        { height: calc(100vw * 0.376); min-height: 220px; }
+  .hero-bg     { background-size: 100% auto; background-position: top center; }
+  .hero-inner  { padding: 1.2rem var(--space-md); }
+  .hero-eyebrow{ display: none; }
+  .hero-title  { font-size: 1.5rem; margin-bottom: .4rem; }
+  .hero-sub    { font-size: .82rem; }
 
   .social-btn { padding: 8px 12px; font-size: .78rem; }
 

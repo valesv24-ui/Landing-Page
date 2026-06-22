@@ -656,7 +656,8 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
 
   /* Hero: en móvil la imagen cubre todo el fondo */
   .hero       { height: auto; min-height: 0; }
-  .hero-bg    { background-size: cover; background-position: center center; }
+  .hero-bg    { background-size: cover; background-position: right center; }
+  .hero-overlay { background: linear-gradient(105deg, rgba(26,8,2,.95) 0%, rgba(50,20,5,.88) 55%, rgba(26,8,2,.80) 100%); }
   .hero-inner { padding: 3rem var(--space-md) 4rem; }
 
   .social-btn { padding: 8px 12px; font-size: .78rem; }

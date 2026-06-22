@@ -654,8 +654,9 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
   .stat-n     { font-size: 2rem; }
   .stat-item  { min-width: 0; padding: .5rem; }
 
-  /* Hero: altura más compacta en móvil */
+  /* Hero: en móvil la imagen cubre todo el fondo */
   .hero       { height: auto; min-height: 0; }
+  .hero-bg    { background-size: cover; background-position: center center; }
   .hero-inner { padding: 3rem var(--space-md) 4rem; }
 
   .social-btn { padding: 8px 12px; font-size: .78rem; }

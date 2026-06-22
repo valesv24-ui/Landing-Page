@@ -231,40 +231,120 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* ================================================
-     6. CARRUSEL — Flexbox transform
-     Usa CSS Flexbox (Clase #7) para el track.
-     El movimiento se hace con translateX sobre
-     el contenedor flex, aprovechando que los slides
-     son flex items con flex: 0 0 calc(...)
+     6. CARRUSEL INFINITO — Flexbox transform
+     Técnica: clonar slides al inicio y al final.
+     El track tiene: [clones-fin | slides reales | clones-inicio]
+     Cuando llega a los clones, salta instantáneamente
+     (sin transición) al lado real equivalente.
   ================================================ */
-  const track     = document.getElementById('carouselTrack');
+  const track       = document.getElementById('carouselTrack');
   const dotsContainer = document.getElementById('carouselDots');
-  const prevBtn   = document.getElementById('carouselPrev');
-  const nextBtn   = document.getElementById('carouselNext');
+  const prevBtn     = document.getElementById('carouselPrev');
+  const nextBtn     = document.getElementById('carouselNext');
 
   if (track) {
-    const slides     = track.querySelectorAll('.carousel-slide');
-    const totalSlides = slides.length;
+    const realSlides  = Array.from(track.querySelectorAll('.carousel-slide'));
+    const total       = realSlides.length;
 
-    // Calcular cuántos slides son visibles según el ancho
     function getSlidesVisible() {
       if (window.innerWidth <= 600)  return 1;
       if (window.innerWidth <= 960)  return 2;
       return 3;
     }
 
-    let current = 0;
-    let visible = getSlidesVisible();
-    const maxIndex = () => Math.max(0, totalSlides - visible);
+    let visible  = getSlidesVisible();
+    let current  = 0; // índice real (0 = primer slide real)
+    let isJumping = false;
 
-    // Crear dots
+    // Clonar slides para el loop infinito
+    // Al inicio del track: copias de los ÚLTIMOS slides
+    // Al final del track:  copias de los PRIMEROS slides
+    function buildClones() {
+      // Quitar clones previos
+      track.querySelectorAll('.carousel-clone').forEach(c => c.remove());
+
+      // Clones al final (copias de los primeros `visible` slides)
+      for (let i = 0; i < visible; i++) {
+        const clone = realSlides[i % total].cloneNode(true);
+        clone.classList.add('carousel-clone');
+        clone.removeAttribute('data-animate');
+        track.appendChild(clone);
+      }
+
+      // Clones al inicio (copias de los últimos `visible` slides)
+      for (let i = visible - 1; i >= 0; i--) {
+        const clone = realSlides[(total - 1 - (visible - 1 - i) + total) % total].cloneNode(true);
+        clone.classList.add('carousel-clone');
+        clone.removeAttribute('data-animate');
+        track.prepend(clone);
+      }
+    }
+
+    // Obtener ancho de slide + gap
+    function getSlideWidth() {
+      const slide = track.querySelector('.carousel-slide');
+      if (!slide) return 0;
+      const gap = parseInt(getComputedStyle(track).gap) || 16;
+      return slide.offsetWidth + gap;
+    }
+
+    // Mover al índice real `idx` con o sin transición
+    function moveTo(idx, animate = true) {
+      const slideW  = getSlideWidth();
+      // Los clones al inicio ocupan `visible` posiciones
+      const offset  = (idx + visible) * slideW;
+
+      if (!animate) {
+        track.style.transition = 'none';
+      } else {
+        track.style.transition = 'transform .5s cubic-bezier(.4,0,.2,1)';
+      }
+      track.style.transform = `translateX(-${offset}px)`;
+    }
+
+    // Actualizar dots
+    function updateDots(idx) {
+      dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === ((idx % total) + total) % total);
+      });
+    }
+
+    // Ir a slide real idx (puede ser negativo o mayor que total — se corrige)
+    function goTo(idx, animate = true) {
+      current = idx;
+      moveTo(current, animate);
+      updateDots(((current % total) + total) % total);
+      track.parentElement.setAttribute('aria-label',
+        `Foto ${(((current % total) + total) % total) + 1} de ${total}`);
+    }
+
+    // Al terminar la transición, si estamos en zona de clones → saltar al real
+    track.addEventListener('transitionend', () => {
+      if (isJumping) return;
+      if (current >= total) {
+        isJumping = true;
+        current = current - total;
+        moveTo(current, false);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { isJumping = false; });
+        });
+      } else if (current < 0) {
+        isJumping = true;
+        current = current + total;
+        moveTo(current, false);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => { isJumping = false; });
+        });
+      }
+      updateDots(((current % total) + total) % total);
+    });
+
+    // Construir dots
     function buildDots() {
       dotsContainer.innerHTML = '';
-      visible = getSlidesVisible();
-      const numDots = maxIndex() + 1;
-      for (let i = 0; i < numDots; i++) {
+      for (let i = 0; i < total; i++) {
         const dot = document.createElement('button');
-        dot.className = 'carousel-dot' + (i === current ? ' active' : '');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
         dot.setAttribute('aria-label', `Ir a foto ${i + 1}`);
         dot.setAttribute('role', 'tab');
         dot.addEventListener('click', () => goTo(i));
@@ -272,64 +352,53 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Mover el carrusel usando translateX
-    // El track es un flex container (Clase #7):
-    // cada slide es flex: 0 0 calc((100% - gaps) / n)
-    // mover n slides = translateX de n * (slideWidth + gap)
-    function goTo(index) {
-      current = Math.max(0, Math.min(index, maxIndex()));
-
-      // Obtener ancho real del primer slide + gap
-      const slideEl   = slides[0];
-      const slideW    = slideEl.offsetWidth;
-      const gap       = 16; // var(--space-md) = 1rem = 16px
-      const offset    = current * (slideW + gap);
-
-      track.style.transform = `translateX(-${offset}px)`;
-
-      // Actualizar dots
-      dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === current);
+    // Init
+    function init() {
+      visible = getSlidesVisible();
+      buildClones();
+      buildDots();
+      // Posicionar sin animación en el primer slide real
+      requestAnimationFrame(() => {
+        moveTo(0, false);
+        updateDots(0);
       });
-
-      // Actualizar aria-live para lectores de pantalla
-      track.parentElement.setAttribute('aria-label', `Foto ${current + 1} de ${totalSlides}`);
     }
 
+    // Botones
     prevBtn.addEventListener('click', () => goTo(current - 1));
     nextBtn.addEventListener('click', () => goTo(current + 1));
 
-    // Auto-avance cada 4 segundos
-    let autoPlay = setInterval(() => {
-      goTo(current >= maxIndex() ? 0 : current + 1);
-    }, 4000);
+    // Auto-avance cada 4s
+    let autoPlay = setInterval(() => goTo(current + 1), 4000);
 
-    // Pausar al hover
     track.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
     track.parentElement.addEventListener('mouseleave', () => {
-      autoPlay = setInterval(() => {
-        goTo(current >= maxIndex() ? 0 : current + 1);
-      }, 4000);
+      autoPlay = setInterval(() => goTo(current + 1), 4000);
     });
 
-    // Touch/swipe para móvil
+    // Swipe táctil
     let touchStartX = 0;
-    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend',   e => {
+    track.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      clearInterval(autoPlay);
+    }, { passive: true });
+    track.addEventListener('touchend', e => {
       const diff = touchStartX - e.changedTouches[0].clientX;
       if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+      autoPlay = setInterval(() => goTo(current + 1), 4000);
     });
 
     // Recalcular al redimensionar
+    let resizeTimer;
     window.addEventListener('resize', () => {
-      visible = getSlidesVisible();
-      if (current > maxIndex()) current = maxIndex();
-      buildDots();
-      goTo(current);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        visible = getSlidesVisible();
+        init();
+      }, 200);
     });
 
-    buildDots();
-    goTo(0);
+    init();
   }
 
 

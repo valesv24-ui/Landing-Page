@@ -654,10 +654,10 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
   .stat-n     { font-size: 2rem; }
   .stat-item  { min-width: 0; padding: .5rem; }
 
-  /* Hero: en móvil la imagen cubre todo el fondo */
-  .hero       { height: auto; min-height: 0; }
-  .hero-bg    { background-size: 100% 100%; background-position: center center; }
-  .hero-inner { padding: 3rem var(--space-md) 4rem; }
+  /* Hero: proporción exacta de la imagen en móvil */
+  .hero       { height: calc(100vw * 0.376); min-height: 0; }
+  .hero-bg    { background-size: 100% auto; background-position: top center; }
+  .hero-inner { padding: 1.5rem var(--space-md); }
 
   .social-btn { padding: 8px 12px; font-size: .78rem; }
 

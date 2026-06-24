@@ -1,42 +1,76 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" id="html-root">
 <head>
-  <meta charset="UTF-8" >
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-  <meta name="description" content="Amaretto's Café — Ciudad Quesada, San Carlos. Cafés de especialidad, repostería artesanal, desayunos, almuerzos y postres. Tel: 2462-4343." >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Amaretto's Café — Ciudad Quesada, San Carlos. Cafés de especialidad, repostería artesanal, desayunos, almuerzos y postres. Tel: 2462-4343.">
   <title>Amaretto's Café | Ciudad Quesada</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" >
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" >
-  <link rel="stylesheet" href="css/style.css" >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Skip link: accesibilidad para navegación por teclado (WCAG 2.1) -->
+  <!-- Skip link -->
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
-  <!-- ========== NAVBAR ========== -->
-  <header class="site-header">
-    <nav class="navbar" aria-label="Navegación principal">
-
-      <a class="nav-logo" href="#inicio" aria-label="Amaretto's Café — ir al inicio">
-        <img src="img/logo.jpg" alt="Logo Amaretto's Café" class="nav-logo-img" >
-      </a>
-
-      <ul class="nav-menu" id="navMenu">
-        <li><a class="nav-link" href="#inicio">Inicio</a></li>
-        <li><a class="nav-link" href="#menu">Menú</a></li>
-        <li><a class="nav-link" href="#galeria">Galería</a></li>
-        <li><a class="nav-link" href="#nosotros">Nosotros</a></li>
-        <li><a class="nav-link" href="#contacto">Contacto</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <!-- Botón accesibilidad: tamaño de texto (inclusión) -->
-        <button class="a11y-font-btn" id="fontSizeBtn" aria-label="Aumentar tamaño de texto" title="Cambiar tamaño de texto">
-          <span aria-hidden="true">A</span><span class="a11y-plus" aria-hidden="true">+</span>
+  <!-- ===== FLOATING ACCESSIBILITY PANEL ===== -->
+  <div class="a11y-panel" id="a11yPanel" role="region" aria-label="Panel de accesibilidad">
+    <button class="a11y-toggle-btn" id="a11yToggle" aria-label="Abrir panel de accesibilidad" aria-expanded="false" title="Accesibilidad">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="4.5" r="2.5"/>
+        <path d="M20 9.5H4a.5.5 0 000 1h7v3.2l-2.8 5.6a.5.5 0 00.9.45L12 14l2.9 5.75a.5.5 0 00.9-.45L13 13.7V10.5h7a.5.5 0 000-1z"/>
+      </svg>
+    </button>
+    <div class="a11y-menu" id="a11yMenu" hidden>
+      <p class="a11y-title" aria-hidden="true">♿ Accesibilidad</p>
+      <div class="a11y-group">
+        <p class="a11y-label">Tamaño de texto</p>
+        <div class="a11y-font-controls">
+          <button class="a11y-btn" id="fontDecrease" aria-label="Reducir tamaño de texto">A−</button>
+          <button class="a11y-btn" id="fontReset"    aria-label="Tamaño de texto normal">A</button>
+          <button class="a11y-btn" id="fontIncrease" aria-label="Aumentar tamaño de texto">A+</button>
+        </div>
+      </div>
+      <div class="a11y-group">
+        <p class="a11y-label">Contraste</p>
+        <button class="a11y-btn a11y-btn-wide" id="contrastBtn" aria-label="Activar alto contraste">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18V4c4.41 0 8 3.59 8 8s-3.59 8-8 8z"/></svg>
+          Alto contraste
         </button>
-        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar a modo oscuro" title="Cambiar tema">
+      </div>
+      <div class="a11y-group">
+        <p class="a11y-label">Lector de voz</p>
+        <button class="a11y-btn a11y-btn-wide" id="readerBtn" aria-label="Activar lector de voz">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          Leer página
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" aria-label="Volver al inicio" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+  </button>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="site-header" id="site-header">
+    <nav class="navbar" aria-label="Navegación principal">
+      <a class="nav-logo" href="#inicio" aria-label="Amaretto's Café — ir al inicio">
+        <img src="img/logo.jpg" alt="Logo Amaretto's Café" class="nav-logo-img">
+      </a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a class="nav-link" href="#inicio"   data-i18n="nav.inicio">Inicio</a></li>
+        <li><a class="nav-link" href="#menu"     data-i18n="nav.menu">Menú</a></li>
+        <li><a class="nav-link" href="#galeria"  data-i18n="nav.galeria">Galería</a></li>
+        <li><a class="nav-link" href="#nosotros" data-i18n="nav.nosotros">Nosotros</a></li>
+        <li><a class="nav-link" href="#contacto" data-i18n="nav.contacto">Contacto</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar a modo oscuro">
           <span id="themeIcon" aria-hidden="true">🌙</span>
         </button>
         <button class="nav-toggle" id="navToggle" aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menú de navegación">
@@ -45,25 +79,24 @@
           <span class="bar" aria-hidden="true"></span>
         </button>
       </div>
-
     </nav>
   </header>
 
   <main id="main-content">
 
-    <!-- ========== HERO ========== -->
+    <!-- ===== HERO ===== -->
     <section class="hero" id="inicio" aria-labelledby="hero-heading">
       <div class="hero-bg" aria-hidden="true">
         <div class="hero-overlay"></div>
       </div>
       <div class="hero-inner">
         <div class="hero-content" data-animate="fadeUp">
-          <p class="hero-eyebrow">Ciudad Quesada · San Carlos · Costa Rica</p>
+          <p class="hero-eyebrow" data-i18n="hero.eyebrow">Ciudad Quesada · San Carlos · Costa Rica</p>
           <h1 id="hero-heading" class="hero-title">
-            Más que café.<br>
-            <em>Cada mordisco vale.</em>
+            <span data-i18n="hero.title1">Más que café.</span><br>
+            <em data-i18n="hero.title2">Momentos que se quedan.</em>
           </h1>
-          <p class="hero-sub">Repostería 100% artesanal, cafés de especialidad, desayunos y almuerzos. Donde el buen sabor es la costumbre.</p>
+          <p class="hero-sub" data-i18n="hero.sub">Repostería 100% artesanal, cafés de especialidad, desayunos y almuerzos. Donde el buen sabor es la costumbre.</p>
         </div>
       </div>
       <div class="hero-scroll" aria-hidden="true">
@@ -71,87 +104,81 @@
       </div>
     </section>
 
-    <!-- ========== MARQUEE ========== -->
+    <!-- ===== MARQUEE ===== -->
     <div class="marquee-strip" aria-hidden="true" role="presentation">
       <div class="marquee-track">
-        <span>Desayunos Amarettos</span><em>✦</em>
-        <span>Cafés de Especialidad</span><em>✦</em>
-        <span>Repostería 100% Artesanal</span><em>✦</em>
-        <span>Almuerzos 12md–3pm</span><em>✦</em>
-        <span>Crepas & Postres</span><em>✦</em>
-        <span>Special Shakes</span><em>✦</em>
-        <span>Chifrijo Amarettos</span><em>✦</em>
-        <span>Bowl de Salmón</span><em>✦</em>
-        <span>Emparedados & Pitas</span><em>✦</em>
-        <span>Batidos Proteicos</span><em>✦</em>
-        <span>Desayunos Amarettos</span><em>✦</em>
-        <span>Cafés de Especialidad</span><em>✦</em>
-        <span>Repostería 100% Artesanal</span><em>✦</em>
-        <span>Almuerzos 12md–3pm</span><em>✦</em>
-        <span>Crepas & Postres</span><em>✦</em>
-        <span>Special Shakes</span><em>✦</em>
-        <span>Chifrijo Amarettos</span><em>✦</em>
-        <span>Bowl de Salmón</span><em>✦</em>
-        <span>Emparedados & Pitas</span><em>✦</em>
-        <span>Batidos Proteicos</span><em>✦</em>
+        <span data-i18n="marquee.1">Desayunos Amarettos</span><em>✦</em>
+        <span data-i18n="marquee.2">Cafés de Especialidad</span><em>✦</em>
+        <span data-i18n="marquee.3">Repostería 100% Artesanal</span><em>✦</em>
+        <span data-i18n="marquee.4">Almuerzos 12md–3pm</span><em>✦</em>
+        <span data-i18n="marquee.5">Crepas &amp; Postres</span><em>✦</em>
+        <span data-i18n="marquee.6">Special Shakes</span><em>✦</em>
+        <span data-i18n="marquee.7">Bowl de Salmón</span><em>✦</em>
+        <span data-i18n="marquee.8">Emparedados &amp; Pitas</span><em>✦</em>
+        <span data-i18n="marquee.1">Desayunos Amarettos</span><em>✦</em>
+        <span data-i18n="marquee.2">Cafés de Especialidad</span><em>✦</em>
+        <span data-i18n="marquee.3">Repostería 100% Artesanal</span><em>✦</em>
+        <span data-i18n="marquee.4">Almuerzos 12md–3pm</span><em>✦</em>
+        <span data-i18n="marquee.5">Crepas &amp; Postres</span><em>✦</em>
+        <span data-i18n="marquee.6">Special Shakes</span><em>✦</em>
+        <span data-i18n="marquee.7">Bowl de Salmón</span><em>✦</em>
+        <span data-i18n="marquee.8">Emparedados &amp; Pitas</span><em>✦</em>
       </div>
     </div>
 
-    <!-- ========== STATS — FLEXBOX ========== -->
+    <!-- ===== STATS ===== -->
     <section class="stats-section" aria-labelledby="stats-sr">
-      <h2 id="stats-sr" class="sr-only">Datos de Amaretto's Café</h2>
+      <h2 id="stats-sr" class="sr-only" data-i18n="stats.heading">Datos de Amaretto's Café</h2>
       <div class="stats-flex" data-animate="fadeUp" role="list">
         <div class="stat-item" role="listitem">
           <span class="stat-n"><abbr title="Más de 12 años">12+</abbr></span>
-          <span class="stat-l">Años de trayectoria</span>
+          <span class="stat-l" data-i18n="stats.1">Años de trayectoria</span>
         </div>
         <div class="stat-div" aria-hidden="true"></div>
         <div class="stat-item" role="listitem">
           <span class="stat-n"><abbr title="Más de 4 mil clientes">4K+</abbr></span>
-          <span class="stat-l">Clientes felices</span>
+          <span class="stat-l" data-i18n="stats.2">Clientes felices</span>
         </div>
         <div class="stat-div" aria-hidden="true"></div>
         <div class="stat-item" role="listitem">
           <span class="stat-n"><abbr title="11 horas de servicio diario">11h</abbr></span>
-          <span class="stat-l">De servicio diario</span>
+          <span class="stat-l" data-i18n="stats.3">De servicio diario</span>
         </div>
         <div class="stat-div" aria-hidden="true"></div>
         <div class="stat-item" role="listitem">
           <span class="stat-n"><abbr title="Más de 60 opciones en menú">60+</abbr></span>
-          <span class="stat-l">Opciones en menú</span>
+          <span class="stat-l" data-i18n="stats.4">Opciones en menú</span>
         </div>
       </div>
     </section>
 
-    <!-- ========== MENÚ ACTUALIZADO ========== -->
+    <!-- ===== MENÚ ===== -->
     <section class="menu-section" id="menu" aria-labelledby="menu-heading">
       <div class="section-header" data-animate="fadeUp">
-        <span class="section-tag">Lo que ofrecemos</span>
-        <h2 id="menu-heading">Nuestro Menú</h2>
-        <p>Precios en colones costarricenses (₡). Menú sujeto a cambios según disponibilidad.</p>
+        <span class="section-tag" data-i18n="menu.tag">Lo que ofrecemos</span>
+        <h2 id="menu-heading" data-i18n="menu.heading">Nuestro Menú</h2>
+        <p data-i18n="menu.sub">Precios en colones costarricenses (₡). Menú sujeto a cambios según disponibilidad.</p>
       </div>
 
-      <!-- Tabs de menú -->
       <div class="tab-bar" role="tablist" aria-label="Categorías del menú" data-animate="fadeUp">
-        <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="tab-bebidas"    id="btn-bebidas">☕ Bebidas</button>
-        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-desayuno"   id="btn-desayuno">🍳 Desayunos</button>
-        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-emparedados" id="btn-emparedados">🥪 Emparedados</button>
-        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-almuerzo"   id="btn-almuerzo">🍽 Almuerzos</button>
-        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-postres"    id="btn-postres">🍰 Postres</button>
-        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-antojitos"  id="btn-antojitos">🫔 Antojitos</button>
+        <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="tab-bebidas"     id="btn-bebidas">☕ <span data-i18n="tab.bebidas">Bebidas</span></button>
+        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-desayuno"    id="btn-desayuno">🍳 <span data-i18n="tab.desayuno">Desayunos</span></button>
+        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-emparedados" id="btn-emparedados">🥪 <span data-i18n="tab.emparedados">Emparedados</span></button>
+        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-almuerzo"    id="btn-almuerzo">🍽 <span data-i18n="tab.almuerzo">Almuerzos</span></button>
+        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-postres"     id="btn-postres">🍰 <span data-i18n="tab.postres">Postres</span></button>
+        <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-antojitos"   id="btn-antojitos">🫔 <span data-i18n="tab.antojitos">Antojitos</span></button>
       </div>
 
       <!-- BEBIDAS -->
       <div class="tab-panel active" id="tab-bebidas" role="tabpanel" aria-labelledby="btn-bebidas">
         <div class="panel-layout">
           <div class="panel-img" data-animate="slideLeft">
-            <img src="img/cafes-frios.jpg" alt="Variedad de cafés fríos de Amaretto's Café: Latte, Café Helado y Caramelo" >
-            <div class="panel-img-badge">¿Cuál es el tuyo?</div>
+            <img src="img/cafes-frios.jpg" alt="Variedad de cafés fríos de Amaretto's Café" loading="lazy">
           </div>
           <div class="panel-content" data-animate="fadeUp">
             <div class="menu-grid-items">
               <div class="mcat">
-                <h3>Bebidas Calientes</h3>
+                <h3 data-i18n="mcat.calientes">Bebidas Calientes</h3>
                 <ul>
                   <li><span>Espresso simple</span><span>₡1,200</span></li>
                   <li><span>Espresso doble</span><span>₡1,600</span></li>
@@ -160,7 +187,7 @@
                   <li><span>Cappuccino</span><span>₡2,000</span></li>
                   <li><span>Mocachino</span><span>₡2,000</span></li>
                   <li><span>Latte</span><span>₡2,000</span></li>
-                  <li><span>Café Amarettos (licor/leche condensada)</span><span>₡2,500</span></li>
+                  <li><span>Café Amarettos</span><span>₡2,500</span></li>
                   <li><span>Baileys Latte</span><span>₡2,500</span></li>
                   <li><span>Irlandes Latte (Jack Daniels)</span><span>₡2,500</span></li>
                   <li><span>Capricho (Nutella/café)</span><span>₡1,800</span></li>
@@ -170,7 +197,7 @@
                 </ul>
               </div>
               <div class="mcat mcat-highlight">
-                <h3>Bebidas Frías</h3>
+                <h3 data-i18n="mcat.frias">Bebidas Frías</h3>
                 <ul>
                   <li><span>Moka frappe</span><span>₡2,550</span></li>
                   <li><span>Torta chilena frappe</span><span>₡2,950</span></li>
@@ -184,16 +211,15 @@
                 </ul>
               </div>
               <div class="mcat">
-                <h3>Bebidas Naturales</h3>
+                <h3 data-i18n="mcat.naturales">Bebidas Naturales</h3>
                 <ul>
                   <li><span>Naturales (agua)</span><span>₡1,600</span></li>
                   <li><span>Naturales (leche)</span><span>₡2,000</span></li>
                   <li><span>Limonada con hierbabuena</span><span>₡1,700–₡2,000</span></li>
-                  <li><span>Milkshake (choco/fresa/vainilla/café)</span><span>₡3,000</span></li>
+                  <li><span>Milkshake (4 sabores)</span><span>₡3,000</span></li>
                   <li><span>Fresa-sandía-limón</span><span>₡2,000</span></li>
                   <li><span>Mango-maracuyá-naranja</span><span>₡2,200</span></li>
                   <li><span>Frozen té chai</span><span>₡2,000</span></li>
-                  <li><span>Chocolate frío</span><span>₡2,000</span></li>
                   <li><span>Gaseosa en lata</span><span>₡1,300</span></li>
                 </ul>
               </div>
@@ -206,30 +232,28 @@
       <div class="tab-panel" id="tab-desayuno" role="tabpanel" aria-labelledby="btn-desayuno" hidden>
         <div class="panel-layout">
           <div class="panel-img" data-animate="slideLeft">
-            <img src="img/desayuno-gallo.jpg" alt="Desayuno típico tico con gallo pinto, huevo, plátano y queso Turrialba de Amaretto's Café" >
-            <div class="panel-img-badge">¡Empieza el día excelente!</div>
+            <img src="img/desayuno-gallo.jpg" alt="Desayuno típico tico con gallo pinto, huevo, plátano y queso Turrialba" loading="lazy">
           </div>
           <div class="panel-content" data-animate="fadeUp">
             <div class="menu-grid-items">
               <div class="mcat mcat-highlight">
-                <h3>Nuestros Típicos</h3>
+                <h3 data-i18n="mcat.tipicos">Nuestros Típicos</h3>
                 <ul>
                   <li><span>Picadillo de arracache</span><span>₡1,800</span></li>
                   <li><span>Tortilla de queso con natilla</span><span>₡2,300</span></li>
-                  <li><span>Tortilla de queso acomp. queso fresco</span><span>₡2,300</span></li>
                   <li><span>Queso a la plancha</span><span>₡1,750</span></li>
                   <li><span>Prensada de queso</span><span>₡2,000</span></li>
-                  <li><span>Empanada tica (pollo/carne mechada)</span><span>₡2,500</span></li>
+                  <li><span>Empanada tica</span><span>₡2,500</span></li>
                   <li><span>Tamal</span><span>₡1,750</span></li>
                 </ul>
               </div>
               <div class="mcat">
-                <h3>Para acompañar tu café</h3>
+                <h3 data-i18n="mcat.cafecito">Para acompañar tu café</h3>
                 <ul>
                   <li><span>Mini croissant de pollo</span><span>₡1,900</span></li>
                   <li><span>Mini croissant de carne mechada</span><span>₡2,000</span></li>
-                  <li><span>Mini croissant jamón y queso amarillo</span><span>₡1,800</span></li>
-                  <li><span>Mini croissant relleno con Nutella</span><span>₡1,600</span></li>
+                  <li><span>Mini croissant jamón y queso</span><span>₡1,800</span></li>
+                  <li><span>Mini croissant con Nutella</span><span>₡1,600</span></li>
                   <li><span>Tostadas con queso fresco</span><span>₡2,000</span></li>
                   <li><span>Tostadas con queso mozzarella</span><span>₡2,800</span></li>
                   <li><span>Tostadas capresse</span><span>₡3,300</span></li>
@@ -244,44 +268,39 @@
       <div class="tab-panel" id="tab-emparedados" role="tabpanel" aria-labelledby="btn-emparedados" hidden>
         <div class="panel-layout">
           <div class="panel-img" data-animate="slideLeft">
-            <img src="img/club-sandwich.jpg" alt="Club Sandwich Amarettos con jamón, lechuga, tomate, huevo y papas artesanales" >
-            <div class="panel-img-badge">Pan blanco o integral</div>
+            <img src="img/club-sandwich.jpg" alt="Club Sandwich Amarettos con jamón, lechuga, tomate y papas" loading="lazy">
           </div>
           <div class="panel-content" data-animate="fadeUp">
             <div class="menu-grid-items">
               <div class="mcat">
-                <h3>Emparedados</h3>
+                <h3 data-i18n="mcat.emparedados">Emparedados</h3>
                 <ul>
                   <li><span>Especial Amarettos con papas bravas</span><span>₡4,650</span></li>
                   <li><span>Jamón de pavo</span><span>₡3,000</span></li>
                   <li><span>Filete de pollo con papas bravas</span><span>₡3,900</span></li>
-                  <li><span>Filete de pollo con carne mechada</span><span>₡3,300</span></li>
-                  <li><span>Lápiz tradicional de jamón y queso</span><span>₡3,250</span></li>
+                  <li><span>Lápiz de jamón y queso</span><span>₡3,250</span></li>
                   <li><span>Lápiz de atún</span><span>₡2,700</span></li>
-                  <li><span>Filete pollo, tres quesos y pesto</span><span>₡4,450</span></li>
                   <li><span>Club Sandwich con papas bravas</span><span>₡4,700</span></li>
-                  <li><span>Lápiz de pollo tocineta</span><span>₡3,500</span></li>
                   <li><span>Panino de pollo al pesto</span><span>₡3,200</span></li>
                   <li><span>Panino tipo caprese</span><span>₡3,450</span></li>
-                  <li><span>Panino</span><span>₡3,650</span></li>
                 </ul>
               </div>
               <div class="mcat mcat-highlight">
-                <h3>Pitas</h3>
+                <h3 data-i18n="mcat.pitas">Pitas</h3>
                 <ul>
                   <li><span>Pita Amarettos con papas bravas</span><span>₡4,200</span></li>
                   <li><span>Pita de pollo light</span><span>₡3,900</span></li>
                   <li><span>Pita de jamón de pavo light</span><span>₡3,700</span></li>
-                  <li><span>Pita de jamón de pavo y aguacate</span><span>₡3,750</span></li>
                   <li><span>Pita caprese</span><span>₡3,850</span></li>
                   <li><span>Pita de camarones con chipotle</span><span>₡5,300</span></li>
                 </ul>
-                <h3 style="margin-top:1rem">Menú Infantil</h3>
+              </div>
+              <div class="mcat">
+                <h3 data-i18n="mcat.infantil">Menú Infantil</h3>
                 <ul>
                   <li><span>Fajitas de pollo con papas fritas</span><span>₡3,900</span></li>
                   <li><span>Mini pizza de jamón y queso</span><span>₡3,600</span></li>
                   <li><span>Queso hamburguesa con papitas</span><span>₡3,600</span></li>
-                  <li><span>Copita de helados</span><span>₡1,800</span></li>
                 </ul>
               </div>
             </div>
@@ -293,55 +312,41 @@
       <div class="tab-panel" id="tab-almuerzo" role="tabpanel" aria-labelledby="btn-almuerzo" hidden>
         <div class="panel-layout">
           <div class="panel-img" data-animate="slideLeft">
-            <img src="img/arroz-pollo.jpg" alt="Arroz con pollo colorido con vegetales frescos de Amaretto's Café" >
-            <div class="panel-img-badge">Almuerzos · 12md – 3pm</div>
+            <img src="img/arroz-pollo.jpg" alt="Arroz con pollo colorido con vegetales frescos" loading="lazy">
           </div>
           <div class="panel-content" data-animate="fadeUp">
             <div class="menu-grid-items">
-              <div class="mcat mcat-highlight">
-                <h3>Casados · ₡4,000</h3>
-                <p class="cat-desc">Arroz · Frijoles · Picadillo · Ensalada verde · Plátano maduro · Incluye bebida</p>
-                <ul>
-                  <li><span>Lomo de res</span></li>
-                  <li><span>Filete de pollo</span></li>
-                  <li><span>Chuleta</span></li>
-                  <li><span>Casado Amarettos de lomo salteado (aguacate y huevo)</span><span>₡5,200</span></li>
-                  <li><span>Casado con salmón al grill</span><span>₡6,100</span></li>
-                  <li><span>Casado con camarones al grill</span><span>₡6,100</span></li>
-                  <li><span>Fajitas mixtas</span><span>₡5,300</span></li>
-                  <li><span>Plato del día (hasta agotar)</span><span>₡3,950</span></li>
-                </ul>
-              </div>
               <div class="mcat">
-                <h3>Platos Fuertes</h3>
-                <p class="cat-desc" style="color:var(--color-text-muted)">Incluye 2 guarniciones a elegir</p>
+                <h3 data-i18n="mcat.platos">Platos Fuertes</h3>
                 <ul>
                   <li><span>Lomito en salsa de la casa</span><span>₡6,650</span></li>
                   <li><span>Puntas de lomito jalapeña</span><span>₡6,600</span></li>
-                  <li><span>Lomo a la plancha 200g</span><span>₡6,000</span></li>
-                  <li><span>Lomo teriyaki</span><span>₡7,000</span></li>
                   <li><span>Salmón al grill</span><span>₡7,000</span></li>
                   <li><span>Filete de pescado bechamel</span><span>₡5,900</span></li>
-                  <li><span>Filete de tilapia a la plancha</span><span>₡4,300</span></li>
                   <li><span>Pollo teriyaki</span><span>₡5,500</span></li>
                   <li><span>Lasaña de pollo</span><span>₡5,500</span></li>
                 </ul>
               </div>
-              <div class="mcat">
-                <h3>Ensaladas</h3>
+              <div class="mcat mcat-highlight">
+                <h3 data-i18n="mcat.casados">Casados · ₡4,000</h3>
+                <p class="cat-desc" data-i18n="mcat.casados.desc">Arroz · Frijoles · Picadillo · Ensalada · Plátano · Bebida incluida</p>
                 <ul>
-                  <li><span>Ensalada Amarettos (pollo/tocineta)</span><span>₡5,500</span></li>
-                  <li><span>Ensalada de atún</span><span>₡4,250</span></li>
-                  <li><span>Ensalada vegetariana</span><span>₡—</span></li>
-                  <li><span>Bowl de salmón</span><span>₡6,300</span></li>
-                  <li><span>Bowl Filet Atún</span><span>₡6,100</span></li>
-                  <li><span>Bowl de camarones</span><span>₡6,200</span></li>
+                  <li><span>Lomo de res</span></li>
+                  <li><span>Filete de pollo</span></li>
+                  <li><span>Chuleta</span></li>
+                  <li><span>Casado Amarettos (lomo salteado)</span><span>₡5,200</span></li>
+                  <li><span>Casado con salmón al grill</span><span>₡6,100</span></li>
+                  <li><span>Casado con camarones al grill</span><span>₡6,100</span></li>
+                  <li><span>Plato del día</span><span>₡3,950</span></li>
                 </ul>
-                <h3 style="margin-top:1rem">Arroces</h3>
+              </div>
+              <div class="mcat">
+                <h3 data-i18n="mcat.ensaladas">Ensaladas & Bowls</h3>
                 <ul>
+                  <li><span>Ensalada Amarettos (pollo)</span><span>₡5,500</span></li>
+                  <li><span>Bowl de salmón</span><span>₡6,300</span></li>
+                  <li><span>Bowl de camarones</span><span>₡6,200</span></li>
                   <li><span>Arroz con camarones</span><span>₡8,200</span></li>
-                  <li><span>Arroz con pollo</span><span>₡4,100</span></li>
-                  <li><span>Arroz de la casa</span><span>₡4,100</span></li>
                 </ul>
               </div>
             </div>
@@ -353,25 +358,12 @@
       <div class="tab-panel" id="tab-postres" role="tabpanel" aria-labelledby="btn-postres" hidden>
         <div class="panel-layout">
           <div class="panel-img" data-animate="slideLeft">
-            <img src="img/brownie-helado.jpg" alt="Brownie caliente con helado de vainilla y fresa de Amaretto's Café" >
-            <div class="panel-img-badge">Repostería 100% artesanal</div>
+            <img src="img/brownie-helado.jpg" alt="Brownie caliente con helado de vainilla y fresa de Amaretto's Café" loading="lazy">
           </div>
           <div class="panel-content" data-animate="fadeUp">
             <div class="menu-grid-items">
-              <div class="mcat mcat-highlight">
-                <h3>Nuestros Queques</h3>
-                <ul>
-                  <li><span>Queque zanahoria</span><span>₡2,500</span></li>
-                  <li><span>Queque tipo cajeta de higos</span><span>₡2,500</span></li>
-                  <li><span>Queque de limón y arándanos</span><span>₡2,600</span></li>
-                  <li><span>Queque red velvet</span><span>₡2,500</span></li>
-                  <li><span>Queque de chocolate</span><span>₡2,000</span></li>
-                  <li><span>Queque seco de naranja</span><span>₡1,700</span></li>
-                  <li><span>+ Helado adicional</span><span>₡2,300</span></li>
-                </ul>
-              </div>
               <div class="mcat">
-                <h3>Postres</h3>
+                <h3 data-i18n="mcat.postres">Postres</h3>
                 <ul>
                   <li><span>Tiramisú</span><span>₡2,600</span></li>
                   <li><span>Tres leches</span><span>₡2,400</span></li>
@@ -379,7 +371,20 @@
                   <li><span>Cheesecake fresa/maracuyá</span><span>₡2,800</span></li>
                   <li><span>Pay de limón</span><span>₡2,400</span></li>
                 </ul>
-                <h3 style="margin-top:1rem">Crepas</h3>
+              </div>
+              <div class="mcat mcat-highlight">
+                <h3 data-i18n="mcat.queques">Nuestros Queques</h3>
+                <ul>
+                  <li><span>Queque zanahoria</span><span>₡2,500</span></li>
+                  <li><span>Queque tipo cajeta de higos</span><span>₡2,500</span></li>
+                  <li><span>Queque de limón y arándanos</span><span>₡2,600</span></li>
+                  <li><span>Queque red velvet</span><span>₡2,500</span></li>
+                  <li><span>Queque de chocolate</span><span>₡2,000</span></li>
+                  <li><span>Queque seco de naranja</span><span>₡1,700</span></li>
+                </ul>
+              </div>
+              <div class="mcat">
+                <h3 data-i18n="mcat.crepas">Crepas</h3>
                 <ul>
                   <li><span>Nutella, fresas, helado, crema batida</span><span>₡3,300</span></li>
                   <li><span>Nutella, banano, fresas, helado</span><span>₡3,350</span></li>
@@ -395,13 +400,12 @@
       <div class="tab-panel" id="tab-antojitos" role="tabpanel" aria-labelledby="btn-antojitos" hidden>
         <div class="panel-layout">
           <div class="panel-img" data-animate="slideLeft">
-            <img src="img/hamburguesa.jpg" alt="Hamburguesa artesanal de carne de Amaretto's Café con papas fritas" >
-            <div class="panel-img-badge">Cada mordisco vale.</div>
+            <img src="img/hamburguesa.jpg" alt="Hamburguesa artesanal de carne de Amaretto's Café con papas fritas" loading="lazy">
           </div>
           <div class="panel-content" data-animate="fadeUp">
             <div class="menu-grid-items">
               <div class="mcat mcat-highlight">
-                <h3>Antojitos</h3>
+                <h3 data-i18n="mcat.antojitos">Antojitos</h3>
                 <ul>
                   <li><span>Hamburguesa artesanal de carne</span><span>₡5,200</span></li>
                   <li><span>Hamburguesa artesanal de pollo</span><span>₡4,800</span></li>
@@ -409,15 +413,13 @@
                   <li><span>Dedos de pollo con chipotle</span><span>₡4,500</span></li>
                   <li><span>Dedos de pescado con salsa tártara</span><span>₡4,600</span></li>
                   <li><span>Quesadilla</span><span>₡3,500</span></li>
-                  <li><span>Chifrijo Amarettos</span><span>₡—</span></li>
                 </ul>
               </div>
               <div class="mcat">
-                <h3>Para Compartir</h3>
+                <h3 data-i18n="mcat.compartir">Para Compartir</h3>
                 <ul>
                   <li><span>Mozzarella sticks con salsa pizza</span><span>₡3,850</span></li>
-                  <li><span>Wrap de pollo empanizado con papas</span><span>₡4,900</span></li>
-                  <li><span>Crunchy wrap carne mechada con papas</span><span>₡5,000</span></li>
+                  <li><span>Wrap de pollo empanizado</span><span>₡4,900</span></li>
                   <li><span>Tacos de camarón (3 tacos)</span><span>₡5,650</span></li>
                   <li><span>Tacos de tilapia empanizada</span><span>₡5,100</span></li>
                   <li><span>Papas bravas (chipotle/albahaca)</span><span>₡3,200</span></li>
@@ -428,208 +430,112 @@
           </div>
         </div>
       </div>
-
     </section>
 
-    <!-- ========== CARRUSEL DE GALERÍA ========== -->
+    <!-- ===== CARRUSEL ===== -->
     <section class="gallery-section" id="galeria" aria-labelledby="gallery-heading">
       <div class="section-header" data-animate="fadeUp">
-        <span class="section-tag">Nuestros platos</span>
-        <h2 id="gallery-heading">Hecho con amor,<br><em>servido con orgullo.</em></h2>
+        <span class="section-tag" data-i18n="gallery.tag">Nuestros platos</span>
+        <h2 id="gallery-heading"><span data-i18n="gallery.title1">Hecho con amor,</span><br><em data-i18n="gallery.title2">servido con orgullo.</em></h2>
       </div>
-
       <div class="carousel-wrapper" data-animate="fadeUp">
         <button class="carousel-btn carousel-prev" aria-label="Foto anterior" id="carouselPrev">&#8249;</button>
-
         <div class="carousel-track-outer" aria-live="polite">
           <div class="carousel-track" id="carouselTrack" role="list">
-            <figure class="carousel-slide">
-              <img src="img/club-sandwich.jpg" alt="Club Sandwich Amarettos con jamón, lechuga, tomate, huevo y papas artesanales" loading="lazy">
-              <figcaption>Club Sandwich · ₡4,700</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/brownie-helado.jpg" alt="Brownie caliente con helado de vainilla y fresa de Amaretto's Café" loading="lazy">
-              <figcaption>Brownie & Helado · ₡2,000+</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/tacos-camaron.jpg" alt="Tacos de camarón con aguacate y verduras frescas de Amaretto's Café" loading="lazy">
-              <figcaption>Tacos de Camarón · ₡5,650</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/mozzarella-sticks.jpg" alt="Mozzarella sticks crocantes con salsa de tomate de Amaretto's Café" loading="lazy">
-              <figcaption>Mozzarella Sticks · ₡3,850</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/crepa-helado.jpg" alt="Crepa con helado de vainilla, fresas y crema batida de Amaretto's Café" loading="lazy">
-              <figcaption>Crepa con Helado · ₡3,300</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/queque-zanahoria.jpg" alt="Queque de zanahoria con frosting de Amaretto's Café" loading="lazy">
-              <figcaption>Queque de Zanahoria · ₡2,500</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/pie-limon.jpg" alt="Pay de limón con merengue de Amaretto's Café" loading="lazy">
-              <figcaption>Pay de Limón · ₡2,400</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/red-velvet.jpg" alt="Queque red velvet con frosting blanco de Amaretto's Café" loading="lazy">
-              <figcaption>Red Velvet · ₡2,500</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/mini-croissants.jpg" alt="Mini croissants rellenos artesanales de Amaretto's Café" loading="lazy">
-              <figcaption>Mini Croissants · desde ₡1,600</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/empanadas-artesanales.jpg" alt="Empanadas artesanales doradas de Amaretto's Café" loading="lazy">
-              <figcaption>Empanadas · desde ₡1,600</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/tortilla-queso.jpg" alt="Tortilla de queso con natilla y empanadas de Amaretto's Café" loading="lazy">
-              <figcaption>Tortilla de Queso · ₡2,300</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/quesadilla-pollo.jpg" alt="Quesadillas de pollo con ensalada y pico de gallo de Amaretto's Café" loading="lazy">
-              <figcaption>Quesadilla de Pollo · ₡3,500</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/pollo-salsa-blanca.jpg" alt="Pollo en salsa blanca con arroz y ensalada de Amaretto's Café" loading="lazy">
-              <figcaption>Pollo en Salsa Blanca · ₡4,750</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/ensalada-pollo-plancha.jpg" alt="Ensalada de pollo a la plancha con vegetales frescos de Amaretto's Café" loading="lazy">
-              <figcaption>Ensalada de Pollo · ₡5,500</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/picadillo.jpg" alt="Picadillo tradicional de Amaretto's Café acompañado de café" loading="lazy">
-              <figcaption>Picadillo Tradicional · ₡1,800</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/cafe-tortilla.jpg" alt="Café latte con tortilla de queso en Amaretto's Café" loading="lazy">
-              <figcaption>Cafecito & Típicos</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/rollo-cafe.jpg" alt="Rollo de canela con cafés de especialidad en Amaretto's Café" loading="lazy">
-              <figcaption>Rollo de Canela · ₡1,450</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/cheesecake-brownie.jpg" alt="Cheesecake y brownie con helado de Amaretto's Café" loading="lazy">
-              <figcaption>Postres del día</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/galletas-alfajores.jpg" alt="Galletas y alfajores artesanales de Amaretto's Café" loading="lazy">
-              <figcaption>Repostería Artesanal</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/batido-verde.jpg" alt="Batido verde natural saludable de Amaretto's Café" loading="lazy">
-              <figcaption>Batido Natural · ₡1,600</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/deditos-pollo.jpg" alt="Deditos de pollo crocantes con papas fritas y salsa de Amaretto's Café" loading="lazy">
-              <figcaption>Deditos de Pollo · ₡4,500</figcaption>
-            </figure>
-
-            <figure class="carousel-slide">
-              <img src="img/hamburguesa.jpg" alt="Hamburguesa artesanal de carne con papas fritas de Amaretto's Café" loading="lazy">
-              <figcaption>Hamburguesa · ₡5,200</figcaption>
-            </figure>
+            <figure class="carousel-slide"><img src="img/club-sandwich.jpg" alt="Club Sandwich Amarettos" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/brownie-helado.jpg" alt="Brownie con helado" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/tacos-camaron.jpg" alt="Tacos de camarón" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/mozzarella-sticks.jpg" alt="Mozzarella sticks" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/crepa-helado.jpg" alt="Crepa con helado" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/queque-zanahoria.jpg" alt="Queque de zanahoria" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/pie-limon.jpg" alt="Pay de limón" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/red-velvet.jpg" alt="Red velvet" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/mini-croissants.jpg" alt="Mini croissants" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/empanadas-artesanales.jpg" alt="Empanadas artesanales" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/tortilla-queso.jpg" alt="Tortilla de queso" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/quesadilla-pollo.jpg" alt="Quesadilla de pollo" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/pollo-salsa-blanca.jpg" alt="Pollo en salsa blanca" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/ensalada-pollo-plancha.jpg" alt="Ensalada de pollo" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/picadillo.jpg" alt="Picadillo tradicional" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/cafe-tortilla.jpg" alt="Café con tortilla" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/rollo-cafe.jpg" alt="Rollo de canela" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/cheesecake-brownie.jpg" alt="Cheesecake y brownie" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/galletas-alfajores.jpg" alt="Galletas y alfajores" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/batido-verde.jpg" alt="Batido verde" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/deditos-pollo.jpg" alt="Deditos de pollo" loading="lazy"></figure>
+            <figure class="carousel-slide"><img src="img/hamburguesa.jpg" alt="Hamburguesa artesanal" loading="lazy"></figure>
           </div>
         </div>
-
         <button class="carousel-btn carousel-next" aria-label="Foto siguiente" id="carouselNext">&#8250;</button>
       </div>
-
-      <!-- Dots del carrusel -->
-      <div class="carousel-dots" id="carouselDots" aria-label="Indicadores de posición del carrusel" role="tablist"></div>
+      <div class="carousel-dots" id="carouselDots" aria-label="Indicadores del carrusel" role="tablist"></div>
     </section>
 
-    <!-- ========== NOSOTROS ========== -->
+    <!-- ===== NOSOTROS ===== -->
     <section class="about-section" id="nosotros" aria-labelledby="about-heading">
       <div class="about-inner">
-
         <div class="about-imgs" data-animate="slideLeft">
-          <img src="img/barista-latte.jpg" alt="Barista vertiendo leche vaporizada en un cappuccino con arte latte en Amaretto's Café" >
+          <img src="img/barista-latte.jpg" alt="Barista vertiendo leche en un cappuccino con arte latte en Amaretto's Café">
         </div>
-
         <div class="about-text" data-animate="slideRight">
-          <span class="section-tag">Quiénes somos</span>
-          <h2 id="about-heading">Un café con alma<br><em>quesadeña.</em></h2>
-          <p>Nacimos en el corazón de Ciudad Quesada con una sola misión: ser ese lugar donde cada persona se sienta en casa. A solo <strong>25 metros al sur de la Catedral</strong>, somos el punto de encuentro de familias, trabajadores y visitantes de San Carlos.</p>
-          <p>Más de <strong>12 años</strong> preparando los mejores cafés, desayunos, almuerzos y postres. Siempre con ingredientes frescos y amor en cada preparación.</p>
-
+          <span class="section-tag" data-i18n="about.tag">Quiénes somos</span>
+          <h2 id="about-heading"><span data-i18n="about.title1">Un café con alma</span><br><em data-i18n="about.title2">quesadeña.</em></h2>
+          <p data-i18n="about.p1">Nacimos en el corazón de Ciudad Quesada con una sola misión: ser ese lugar donde cada persona se sienta en casa. A solo <strong>25 metros al sur de la Catedral</strong>, somos el punto de encuentro de familias, trabajadores y visitantes de San Carlos.</p>
+          <p data-i18n="about.p2">Más de <strong>12 años</strong> preparando los mejores cafés, desayunos, almuerzos y postres. Siempre con ingredientes frescos y amor en cada preparación.</p>
           <div class="about-features">
-            <div class="af"><span aria-hidden="true">✓</span> Repostería 100% artesanal</div>
-            <div class="af"><span aria-hidden="true">✓</span> Cafés de especialidad</div>
-            <div class="af"><span aria-hidden="true">✓</span> Desayunos, almuerzos y cenas</div>
-            <div class="af"><span aria-hidden="true">✓</span> Ambiente acogedor y limpio</div>
+            <div class="af"><span aria-hidden="true">✓</span> <span data-i18n="about.f1">Repostería 100% artesanal</span></div>
+            <div class="af"><span aria-hidden="true">✓</span> <span data-i18n="about.f2">Cafés de especialidad</span></div>
+            <div class="af"><span aria-hidden="true">✓</span> <span data-i18n="about.f3">Desayunos, almuerzos y cenas</span></div>
+            <div class="af"><span aria-hidden="true">✓</span> <span data-i18n="about.f4">Ambiente acogedor y limpio</span></div>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- ========== TESTIMONIOS ========== -->
+    <!-- ===== TESTIMONIOS ===== -->
     <section class="testi-section" aria-labelledby="testi-heading">
       <div class="section-header centered" data-animate="fadeUp">
-        <span class="section-tag">Opiniones reales</span>
-        <h2 id="testi-heading">Lo que dicen nuestros clientes</h2>
+        <span class="section-tag" data-i18n="testi.tag">Opiniones reales</span>
+        <h2 id="testi-heading" data-i18n="testi.heading">Lo que dicen nuestros clientes</h2>
       </div>
       <div class="testi-flex" role="list" aria-label="Testimonios de clientes">
-        <article class="tcard" data-animate="fadeUp" style="--delay:0s"><h3 class="sr-only">Opinión de cliente</h3>
+        <article class="tcard" data-animate="fadeUp" style="--delay:0s">
+          <h3 class="sr-only">Opinión de cliente</h3>
           <p class="tcard-stars" role="img" aria-label="5 estrellas de 5">★★★★★</p>
-          <blockquote><p>"Comida increíble, postres deliciosos y excelente servicio. Un gran lugar para una pausa de café."</p></blockquote>
+          <blockquote><p data-i18n="testi.1">"Comida increíble, postres deliciosos y excelente servicio. Un gran lugar para una pausa de café."</p></blockquote>
           <cite>— María F.</cite>
         </article>
-        <article class="tcard" data-animate="fadeUp" style="--delay:.12s"><h3 class="sr-only">Opinión de cliente</h3>
+        <article class="tcard" data-animate="fadeUp" style="--delay:.12s">
+          <h3 class="sr-only">Opinión de cliente</h3>
           <p class="tcard-stars" role="img" aria-label="5 estrellas de 5">★★★★★</p>
-          <blockquote><p>"Llevamos 12 años siendo clientes. El queque de zanahoria y el arreglado son los mejores de San Carlos."</p></blockquote>
+          <blockquote><p data-i18n="testi.2">"Llevamos 12 años siendo clientes. El queque de zanahoria y el arreglado son los mejores de San Carlos."</p></blockquote>
           <cite>— Jean-Pierre L.</cite>
         </article>
-        <article class="tcard" data-animate="fadeUp" style="--delay:.24s"><h3 class="sr-only">Opinión de cliente</h3>
+        <article class="tcard" data-animate="fadeUp" style="--delay:.24s">
+          <h3 class="sr-only">Opinión de cliente</h3>
           <p class="tcard-stars" role="img" aria-label="5 estrellas de 5">★★★★★</p>
-          <blockquote><p>"Un lugar ameno y agradable. Ricos emparedados y el mejor ambiente para trabajar con un buen café."</p></blockquote>
+          <blockquote><p data-i18n="testi.3">"Un lugar ameno y agradable. Ricos emparedados y el mejor ambiente para trabajar con un buen café."</p></blockquote>
           <cite>— Ana R.</cite>
         </article>
       </div>
     </section>
 
-    <!-- ========== CONTACTO ========== -->
+    <!-- ===== CONTACTO ===== -->
     <section class="contact-section" id="contacto" aria-labelledby="contact-heading">
       <div class="contact-inner">
 
-        <!-- Columna IZQUIERDA: redes sociales + Web Storage -->
         <div class="contact-info-col" data-animate="slideLeft">
-          <span class="section-tag light">Visitanos</span>
-          <h2 id="contact-heading">Encuéntranos en<br><em>Ciudad Quesada.</em></h2>
+          <span class="section-tag light" data-i18n="contact.tag">Visitanos</span>
+          <h2 id="contact-heading"><span data-i18n="contact.title1">Encuéntranos en</span><br><em data-i18n="contact.title2">Ciudad Quesada.</em></h2>
 
-          <!-- Redes Sociales -->
-          <section class="social-section" aria-labelledby="social-heading">
-            <h3 id="social-heading" class="social-title">Redes Sociales</h3>
-            <nav class="social-links" aria-label="Redes sociales de Amaretto's Café">
-              <a href="https://www.instagram.com/amarettos_cq/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram de Amaretto's Café, se abre en nueva pestaña">
+          <nav class="social-section" aria-labelledby="social-heading">
+            <h3 id="social-heading" class="social-title" data-i18n="contact.redes">Redes Sociales</h3>
+            <div class="social-links">
+              <a href="https://www.instagram.com/amarettos_cq/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram de Amaretto's Café">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                 Instagram
               </a>
-              <a href="https://www.facebook.com/amarettoscq" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook de Amaretto's Café, se abre en nueva pestaña">
+              <a href="https://www.facebook.com/amarettoscq" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook de Amaretto's Café">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 Facebook
               </a>
@@ -637,46 +543,32 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                 Correo
               </a>
-            </nav>
-          </section>
+            </div>
+          </nav>
 
-          <!-- Teléfono y Horario -->
-          <div class="cinfo-list">
+          <!-- Teléfono y horario -->
+          <div class="cinfo-list" style="margin-top:var(--space-lg)">
             <div class="cinfo-row">
               <span class="cinfo-icon" aria-hidden="true">📞</span>
-              <div>
-                <h3>Teléfono</h3>
-                <a href="tel:+50624624343" class="social-link" aria-label="Llamar a Amaretto's Café">2462-4343</a>
-              </div>
+              <a href="tel:+50624624343" class="cinfo-text social-link" aria-label="Llamar a Amaretto's Café">2462-4343</a>
             </div>
             <div class="cinfo-row">
               <span class="cinfo-icon" aria-hidden="true">🕐</span>
-              <div>
-                <h3>Horario</h3>
-                <p>Lunes a Sábado · <strong>8:00 a.m. – 7:00 p.m.</strong></p>
-              </div>
+              <span class="cinfo-text" data-i18n="contact.horario">Lun–Sáb · 8:00 a.m. – 7:00 p.m.</span>
             </div>
           </div>
 
         </div>
 
-        <!-- Columna DERECHA: dirección + mapa -->
         <div class="contact-map-col" data-animate="slideRight">
-
-          <div class="cinfo-list">
-            <div class="cinfo-row">
-              <span class="cinfo-icon" aria-hidden="true">📍</span>
-              <div>
-                <h3>Dirección</h3>
-                <p>25 metros al sur de la Catedral<br>Ciudad Quesada, San Carlos</p>
-              </div>
-            </div>
+          <!-- Dirección + Mapa -->
+          <div class="cinfo-row">
+            <span class="cinfo-icon" aria-hidden="true">📍</span>
+            <span class="cinfo-text" data-i18n="contact.direccion">25 metros al sur de la Catedral, Ciudad Quesada, San Carlos</span>
           </div>
-
-          <!-- Google Maps -->
-          <div class="maps-embed">
+          <div class="maps-embed" style="margin-top:var(--space-md)">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5!2d-84.42!3d10.33!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zQW1hcmV0dG8ncyBDYWbDqQ!5e0!3m2!1ses!2scr!4v1700000000000!5m2!1ses!2scr"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d500!2d-84.4304091!3d10.3223354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa065f3032c3991%3A0x45686469f1d3e437!2sAmaretto's!5e0!3m2!1ses!2scr!4v1700000000000!5m2!1ses!2scr"
               height="280"
               style="border:0; border-radius: var(--radius-lg); width:100%;"
               allowfullscreen=""
@@ -686,7 +578,6 @@
               aria-label="Mapa de Google Maps mostrando la ubicación de Amaretto's Café en Ciudad Quesada"
             ></iframe>
           </div>
-
         </div>
 
       </div>
@@ -694,12 +585,11 @@
 
   </main>
 
-  <!-- ========== FOOTER ========== -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <img src="img/logo.jpg" alt="Logo de Amaretto's Café" class="footer-logo" >
-      <p class="footer-loc">Ciudad Quesada, San Carlos · Costa Rica</p>
-      <p class="footer-copy"><small>© 2024 Amaretto's Café. Todos los derechos reservados.</small></p>
+      <img src="img/logo.jpg" alt="Logo de Amaretto's Café" class="footer-logo">
+      <p class="footer-loc" data-i18n="footer.loc">Ciudad Quesada, San Carlos · Costa Rica</p>
+      <p class="footer-copy"><small data-i18n="footer.copy">© 2024 Amaretto's Café. Todos los derechos reservados.</small></p>
     </div>
   </footer>
 

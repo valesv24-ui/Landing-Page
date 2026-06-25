@@ -41,7 +41,7 @@ html.dark {
   --color-bg:        #2C1A08; --color-surface:#3A2210; --color-surface-d:#452A14;
   --color-white:     #2C1A08; --color-text:#F5EAD8; --color-text-sub:#D4A878;
   --color-text-muted:#A07850; --color-border:#5A3820; --color-border-l:#4A2E18;
-  --color-dark:      #2C1A08; --color-accent:#8B5E3C; --color-accent-d:#6B4428;
+  --color-dark:      #1A0C02; --color-accent:#8B5E3C; --color-accent-d:#6B4428;
   --color-primary:   #E8521A; --color-primary-h:#F06030;
 }
 
@@ -229,8 +229,8 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
 /* HERO */
 .hero {
   position: relative;
-  min-height: 500px;
-  height: max(37.6vw, 500px);
+  min-height: 480px;
+  height: max(37.6vw, 480px);
   display: flex; align-items: center; overflow: hidden;
   background-color: var(--color-dark);
 }
@@ -239,7 +239,7 @@ html.dark .site-header { background: rgba(26,16,8,.93); }
   background-image: url('../img/hero-espresso.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center;
+  background-position: center 55%;
   animation: heroZoom 14s ease-in-out infinite alternate;
 }
 @keyframes heroZoom { from { transform:scale(1); } to { transform:scale(1.04); } }
